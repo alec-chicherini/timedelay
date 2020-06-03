@@ -22,25 +22,25 @@ int main()
 	T.addTimer("second", 4.0);
 	sleep(1);
 
-	std::cout << "first timer:checkTimer"<<std::endl;
+	std::cout << "first timer:checkTimer" << "               ";
 	std::cout << "second timer:checkTimer" << std::endl;
 
-	std::cout<<T.readTimer("first")<<":"<<T.checkTimer("first")<<std::endl;
+	std::cout<<T.readTimer("first")<<":"<<T.checkTimer("first")<<"               ";
 	std::cout<<T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
 
 	sleep(3);
 
-	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << std::endl;
+	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << "               ";
 	std::cout << T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
 
 	sleep(3);
 
-	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << std::endl;
+	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << "               ";
 	std::cout << T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
 
 	sleep(3);
 
-	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << std::endl;
+	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << "               ";
 	std::cout << T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
 
 	std::cout << std::endl;
@@ -64,7 +64,7 @@ int main()
 	T.addAtQueue(5);
 	
 
-	std::cout << "queue: cQ queueTest()" << std::endl;
+	std::cout << "T.queue: checkQueue() queueTest()" << std::endl;
 	T.addTimer("queue");
 	while (T.readTimer("queue")<20)
 	{
