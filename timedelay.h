@@ -1,7 +1,7 @@
 #pragma once
 //class using std::chrono to make some stopwatch in milliseconds.
 //return bool value every call about timer is over or not
-//Two arrays to access to the elements by string name or in queue logic. 
+// access to the elements by string name or in queue logic. 
 
 #include <iostream>
 #include <chrono>
