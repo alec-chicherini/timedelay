@@ -1,7 +1,14 @@
+//test #1 #2
+
 #include "timedelay.h"
 #include <iostream>
 #include <chrono> // std::chrono::seconds
 #include <thread> // std::this_thread::sleep_for
+
+
+#include <future>
+
+#define TEST2
 
 //sleep for some secondson this thread
 void sleep (int x)
@@ -10,10 +17,13 @@ void sleep (int x)
 }
 
 
+
+
 int main()
 {
 
-	
+#ifdef TEST1
+
 	timedelay T;
 	//creating first timer with name first and 3 second wait condition. before timer is over it return 0 after 1
 	T.addTimer("first",10.0);
@@ -78,6 +88,29 @@ int main()
 		if(T.readTimer("queue")>5.6 && T.readTimer("queue") < 6.5)T.addAtQueue(7);
 	}
 
+
+
+#endif
+
+
+#ifdef TEST2
+
+	timedelay T;
+
+	for (int i = 0; i < 4; i++)
+
+	{
+		T.addTimer("async");
+
+		std::future<void> ft = std::async(std::launch::deferred, [] {return sleep(2); });
+		ft.get();
+		sleep(1);
+		std::cout << T.readTimer("async") << std::endl;
+
+	}
+
+
+#endif
 
 	return 1;
 

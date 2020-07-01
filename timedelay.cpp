@@ -41,6 +41,7 @@ bool timedelay::isEmptyQueue()
 void timedelay::addTimer(std::string name, float checkTime)
 {
 	tPoint nowT = std::chrono::high_resolution_clock::now();
+	
 
 	stopwatch sW = { checkTime,nowT };
 
