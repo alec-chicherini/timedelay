@@ -1,4 +1,4 @@
-//test #1 #2
+//test #1 #2 #3
 
 #include "timedelay.h"
 #include <iostream>
@@ -8,7 +8,7 @@
 
 #include <future>
 
-#define TEST2
+#define TEST3
 
 //sleep for some secondson this thread
 void sleep (int x)
@@ -111,6 +111,55 @@ int main()
 
 
 #endif
+
+
+
+#ifdef TEST3
+	timedelay T;
+
+	auto func = [&T](std::string str) {
+		
+		T.addTimer(str);
+		return sleep(3);
+	};
+
+	std::future<void> ft = std::async(std::launch::async, func,"anotherThread1");
+
+	ft.get();
+	sleep(1);
+	std::cout << T.readTimer("anotherThread1") << std::endl;
+
+	std::thread tr(func, "anotherThread2");
+	tr.join();
+	sleep(1);
+	std::cout << T.readTimer("anotherThread2") <<std::endl;
+
+
+	
+	auto funcRev = [&T](std::string str) {
+
+		sleep(3);
+		std::cout<<T.readTimer(str)<<std::endl;
+		return ;
+	};
+
+
+	T.addTimer("anotherThread3");
+	sleep(1);
+	std::future<void> ftRev = std::async(std::launch::async, funcRev, "anotherThread3");
+	ftRev.get();
+	
+	T.addTimer("anotherThread4");
+	sleep(1);
+	std::thread trRev(funcRev, "anotherThread4");
+	trRev.join();
+	
+	
+
+
+
+#endif
+
 
 	return 1;
 
