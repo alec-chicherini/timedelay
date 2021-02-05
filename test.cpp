@@ -1,23 +1,23 @@
-//test #1 #2 #3
-
+//test addTimer and timer queue test
+//test continuous async test
+//test run timer sinside another thread and read.
+//TEST4 addTimer with one param test Wrong timer name error check.
 #include "timedelay.h"
 #include <iostream>
 #include <chrono> // std::chrono::seconds
-#include <thread> // std::this_thread::sleep_for
+#include <thread> // std::this_thread::test::sleep_for
 
 
 #include <future>
 
-#define TEST3
-
+#define TEST1
+namespace test{
 //sleep for some secondson this thread
 void sleep (int x)
 {
 	std::this_thread::sleep_for(std::chrono::seconds{ x });
 }
-
-
-
+}
 
 int main()
 {
@@ -27,10 +27,10 @@ int main()
 	timedelay T;
 	//creating first timer with name first and 3 second wait condition. before timer is over it return 0 after 1
 	T.addTimer("first",10.0);
-	sleep(1);
+	test::sleep(1);
 
 	T.addTimer("second", 4.0);
-	sleep(1);
+	test::sleep(1);
 
 	std::cout << "first timer:checkTimer" << "               ";
 	std::cout << "second timer:checkTimer" << std::endl;
@@ -38,17 +38,17 @@ int main()
 	std::cout<<T.readTimer("first")<<":"<<T.checkTimer("first")<<"               ";
 	std::cout<<T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
 
-	sleep(3);
+	test::sleep(3);
 
 	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << "               ";
 	std::cout << T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
 
-	sleep(3);
+	test::sleep(3);
 
 	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << "               ";
 	std::cout << T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
 
-	sleep(3);
+	test::sleep(3);
 
 	std::cout << T.readTimer("first") << ":" << T.checkTimer("first") << "               ";
 	std::cout << T.readTimer("second") << ":" << T.checkTimer("second") << std::endl;
@@ -78,7 +78,7 @@ int main()
 	T.addTimer("queue");
 	while (T.readTimer("queue")<20)
 	{
-		sleep(1);
+		test::sleep(1);
 		
 		std::cout << T.readTimer("queue")<<" ";
 		std::cout << T.checkQueue()<<" ";
@@ -102,9 +102,9 @@ int main()
 	{
 		T.addTimer("async");
 
-		std::future<void> ft = std::async(std::launch::deferred, [] {return sleep(2); });
+		std::future<void> ft = std::async(std::launch::deferred, [] {return test::sleep(2); });
 		ft.get();
-		sleep(1);
+		test::sleep(1);
 		std::cout << T.readTimer("async") << std::endl;
 
 	}
@@ -120,37 +120,37 @@ int main()
 	auto func = [&T](std::string str) {
 		
 		T.addTimer(str);
-		return sleep(3);
+		return test::sleep(3);
 	};
 
 	std::future<void> ft = std::async(std::launch::async, func,"anotherThread1");
 
 	ft.get();
-	sleep(1);
+	test::sleep(1);
 	std::cout << T.readTimer("anotherThread1") << std::endl;
 
 	std::thread tr(func, "anotherThread2");
 	tr.join();
-	sleep(1);
+	test::sleep(1);
 	std::cout << T.readTimer("anotherThread2") <<std::endl;
 
 
 	
 	auto funcRev = [&T](std::string str) {
 
-		sleep(3);
+		test::sleep(3);
 		std::cout<<T.readTimer(str)<<std::endl;
 		return ;
 	};
 
 
 	T.addTimer("anotherThread3");
-	sleep(1);
+	test::sleep(1);
 	std::future<void> ftRev = std::async(std::launch::async, funcRev, "anotherThread3");
 	ftRev.get();
 	
 	T.addTimer("anotherThread4");
-	sleep(1);
+	test::sleep(1);
 	std::thread trRev(funcRev, "anotherThread4");
 	trRev.join();
 	
@@ -160,6 +160,15 @@ int main()
 
 #endif
 
+#ifdef TEST4
+
+	timedelay Td;
+	Td.addTimer("wrong");
+	test::sleep(1);
+	std::cout<<Td.readTimer("Wrong")<<std::endl;
+	std::cout << Td.readTimer("wrong") << std::endl;
+
+#endif
 
 	return 1;
 

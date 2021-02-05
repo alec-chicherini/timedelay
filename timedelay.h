@@ -71,7 +71,7 @@ public:
 	//                    else return false
 	bool checkTimer(std::string name);
 
-	//return difference between stored value and now
+	//return difference between stored value and now. if name wrong return -1.
 	float readTimer(std::string name);
 
 

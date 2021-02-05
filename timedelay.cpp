@@ -52,6 +52,7 @@ void timedelay::addTimer(std::string name, float checkTime)
 void timedelay::addTimer(std::string name)
 {
 	addTimer(name, 0);
+	
 }
 
 bool timedelay::checkTimer(std::string name)
@@ -59,6 +60,17 @@ bool timedelay::checkTimer(std::string name)
 	if (tArray.count(name) == 0)return true;
 
   std::map<std::string, stopwatch>::iterator it = tArray.find(name);
+  //if wrong name - do not exist in array return -1.0
+ 
+  if (it == tArray.end()) { 
+	
+#ifdef _CONSOLE
+	#ifdef _DEBUG
+	  std::cout << "DEBUG::At " << __FUNCTION__ << " wrong name param." << std::endl;
+	#endif
+#endif
+	 
+  }
    tPoint nowT= std::chrono::high_resolution_clock::now();
   //if time in array more then  now to check time value return true
   duration<float> timerDuration =  nowT - it->second.stopwatchPoint;
@@ -70,6 +82,14 @@ bool timedelay::checkTimer(std::string name)
 float timedelay::readTimer(std::string name)
 {
 	std::map<std::string, stopwatch>::iterator it = tArray.find(name);
+	//if wrong name - do not exist in array return -1.0
+	if (it == tArray.end()) { 
+#ifdef _CONSOLE
+	#ifdef _DEBUG
+		std::cout << "DEBUG::At " << __FUNCTION__ << " wrong name param." << std::endl;
+	#endif
+#endif
+		return -1.0; }
 	tPoint nowT = std::chrono::high_resolution_clock::now();
 	//if time in array more then  now to check time value return true
 	duration<float> timerDuration = nowT - it->second.stopwatchPoint;
